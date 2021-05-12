@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
-import CardList from './Components/CardList';
-import SearchBox from "./Components/SearchBox"
+import CardList from '../Components/CardList';
+import SearchBox from "../Components/SearchBox"
 import "tachyons"
 import "./App.css"
 import axios from "axios"
-import Scroll from "./Components/Scroll"
+import Scroll from "../Components/Scroll"
 
 class App extends Component {
     constructor(props) {
