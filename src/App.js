@@ -4,6 +4,7 @@ import SearchBox from "./Components/SearchBox"
 import "tachyons"
 import "./App.css"
 import axios from "axios"
+import Scroll from "./Components/Scroll"
 
 class App extends Component {
     constructor(props) {
@@ -35,7 +36,9 @@ class App extends Component {
             <div className="tc">
                 <h1 className="f2">RoboFriends</h1>
                 <SearchBox change={this.onSearchChange} />
-                <CardList robots={filteredRobots} />
+                <Scroll>
+                    <CardList robots={filteredRobots} />
+                </Scroll>
             </div>
         )}
     }
