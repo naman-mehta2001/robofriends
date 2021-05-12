@@ -5,6 +5,7 @@ import "tachyons"
 import "./App.css"
 import axios from "axios"
 import Scroll from "../Components/Scroll"
+import ErrorBoundary from '../Components/ErrorBoundary';
 
 class App extends Component {
     constructor(props) {
@@ -37,7 +38,9 @@ class App extends Component {
                 <h1 className="f2">RoboFriends</h1>
                 <SearchBox change={this.onSearchChange} />
                 <Scroll>
+                    <ErrorBoundary>
                     <CardList robots={filteredRobots} />
+                    </ErrorBoundary>
                 </Scroll>
             </div>
         )}
