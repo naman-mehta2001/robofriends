@@ -1,27 +1,26 @@
-import React,{useState, useEffect} from 'react'
+import React,{useEffect} from 'react'
 import CardList from '../Components/CardList';
 import SearchBox from "../Components/SearchBox"
 import "tachyons"
 import "./App.css"
-import axios from "axios"
 import Scroll from "../Components/Scroll"
 import ErrorBoundary from '../Components/ErrorBoundary';
 import {connect} from "react-redux"
 import {setSearchField} from "../redux/searfield/action"
+import {fetchUsers} from "../redux/user/userActions"
 
 function App(props) {
-    const [robots, setRobots] = useState([])
 
     useEffect(() => {
-        axios.get("https://jsonplaceholder.typicode.com/users")
-        .then(res => {setRobots(res.data)})
-    }, [robots])
+        props.fetchUsers()
+        // eslint-disable-next-line
+    }, [])
 
     // fetch("https://jsonplaceholder.typicode.com/users").then(response => response.json()).then(users => this.setState({robots : users}))
-    const filteredRobots = robots.filter(robot => {
+    const filteredRobots = props.users.filter(robot => {
             return robot.name.toLowerCase().includes(props.searchField.toLowerCase())
         })
-        return (!(robots.length) ? <h1>Loading</h1> : (
+        return (props.loading ? <h1>Loading</h1> : (
             <div className="tc">
                 <h1 className="f2">RoboFriends</h1>
                 <SearchBox change={props.onSearchChange} />
@@ -34,9 +33,14 @@ function App(props) {
         ))
 }
 const mapStateToProps = state => {
-    return {searchField : state.searchField}
+    return {searchField : state.searchField.searchField,
+            users : state.user.users,
+            loading : state.user.loading,
+            error : state.user.error
+    }
 }
 const mapDispatchToProps = dispatch => {
-    return {onSearchChange : (event) => dispatch(setSearchField(event.target.value))}
+    return {onSearchChange : (event) => dispatch(setSearchField(event.target.value)),
+    fetchUsers : () => dispatch(fetchUsers())}
 }
 export default connect(mapStateToProps,mapDispatchToProps)(App)

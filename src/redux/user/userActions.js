@@ -13,7 +13,7 @@ export const fetchUsersFailure = (error) => {
     return {type : FETCH_USERS_FAILURE, payload : error}
 }
 //uses thunk and returns another function instead of action and can have side effects and dispatch is its argument
-export const fetchUsers = (dispatch) => {
+export const fetchUsers = () => (dispatch) => {
     dispatch(fetchUsersRequest())
     axios.get("https://jsonplaceholder.typicode.com/users")
     .then(res => dispatch(fetchUsersSuccess(res.data)))

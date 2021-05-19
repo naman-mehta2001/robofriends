@@ -1,7 +1,8 @@
 import { createStore,applyMiddleware } from "redux";
-import reducer from "./searfield/searchFieldReducer";
+import rootReducer from "./rootReducer";
 import logger from "redux-logger"
 import ReduxThunk from "redux-thunk"
 
-const store =createStore(reducer,applyMiddleware(logger,ReduxThunk))
+
+const store =createStore(rootReducer,applyMiddleware(logger,ReduxThunk))
 export default store
