@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React,{useState, useEffect} from 'react'
 import CardList from '../Components/CardList';
 import SearchBox from "../Components/SearchBox"
 import "tachyons"
@@ -7,43 +7,33 @@ import axios from "axios"
 import Scroll from "../Components/Scroll"
 import ErrorBoundary from '../Components/ErrorBoundary';
 
-class App extends Component {
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-            searchField : "",
-            robots : [], //empty, call users using API call       
-        }
+function App() {
+    const [searchField, setSearchField] = useState("")
+    const [robots, setRobots] = useState([])
+
+    useEffect(() => {
+        axios.get("https://jsonplaceholder.typicode.com/users")
+        .then(res => {setRobots(res.data)})
+    }, [robots])
+
+    // fetch("https://jsonplaceholder.typicode.com/users").then(response => response.json()).then(users => this.setState({robots : users}))
+    const onSearchChange = (Event) => {
+        setSearchField(Event.target.value)
     }
-    componentDidMount(){
-        axios.get("https://jsonplaceholder.typicode.com/users").then(response => {
-            this.setState({robots : response.data})
-        })
-        // fetch("https://jsonplaceholder.typicode.com/users").then(response => response.json()).then(users => this.setState({robots : users}))
-    }
-    onSearchChange = (Event) => {
-        this.setState({
-            searchField : Event.target.value,
-        })
-    }
-    render(){
-        const {robots, searchField} = this.state
-        const filteredRobots = this.state.robots.filter(robot => {
+    const filteredRobots = robots.filter(robot => {
             return robot.name.toLowerCase().includes(searchField.toLowerCase())
         })
         return (!(robots.length) ? <h1>Loading</h1> : (
             <div className="tc">
                 <h1 className="f2">RoboFriends</h1>
-                <SearchBox change={this.onSearchChange} />
+                <SearchBox change={onSearchChange} />
                 <Scroll>
                     <ErrorBoundary>
-                    <CardList robots={filteredRobots} />
+                        <CardList robots={filteredRobots} />
                     </ErrorBoundary>
                 </Scroll>
             </div>
         ))
-    }
 }
 
 export default App
