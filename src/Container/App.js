@@ -7,7 +7,7 @@ import axios from "axios"
 import Scroll from "../Components/Scroll"
 import ErrorBoundary from '../Components/ErrorBoundary';
 import {connect} from "react-redux"
-import {setSearchField} from "../redux/feature1/action"
+import {setSearchField} from "../redux/searfield/action"
 
 function App(props) {
     const [robots, setRobots] = useState([])
